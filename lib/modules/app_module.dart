@@ -7,7 +7,7 @@ class AppModule extends Module {
   @override
   void routes(r) {
     r.module('/', module: AuthModule());
-    r.module('/home', module: HomeModule());
-    r.module('/stock', module: StockModule());
+    r.module('/home/', module: HomeModule());
+    r.module('/stock/', module: StockModule());
   }
 }

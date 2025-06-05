@@ -8,7 +8,7 @@ class StockPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Stock')),
+      appBar: AppBar(title: const Text('Estoque')),
       drawer: DrawerDefault(),
       body:
           const RouterOutlet(), // Aqui será carregado o conteúdo do módulo selecionado

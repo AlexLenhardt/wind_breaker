@@ -46,7 +46,7 @@ class InitialPage extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Modular.to.navigate('/home');
+                        Modular.to.navigate('/home/');
                       },
                       child: const Text('Entrar'),
                     ),
