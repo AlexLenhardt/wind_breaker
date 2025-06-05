@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:wind_breaker/main.dart';
 import '../cubit/stock_cubit.dart';
 import '../cubit/stock_state.dart';
 import '../../domain/entities/stock_item.dart';
@@ -46,6 +47,7 @@ class _StockListPageState extends State<StockListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Estoque')),
+      drawer: DrawerDefault(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -99,10 +101,11 @@ class _StockListPageState extends State<StockListPage> {
                     final filteredItems = applyFilters(state.items);
 
                     return SingleChildScrollView(
+                      controller: ScrollController(keepScrollOffset: true),
                       child: PaginatedDataTable(
                         header: const Text('Itens em Estoque'),
                         columnSpacing: 200,
-                        rowsPerPage: 10,
+                        rowsPerPage: 15,
                         columns: const [
                           DataColumn(label: Text('Código')),
                           DataColumn(label: Text('Nome')),
