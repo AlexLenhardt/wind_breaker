@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wind_breaker/main.dart';
+import 'package:wind_breaker/modules/stock/presentation/widget/ItemDetailsDialog.dart';
 import '../cubit/stock_cubit.dart';
 import '../cubit/stock_state.dart';
 import '../../domain/entities/stock_item.dart';
@@ -114,7 +115,7 @@ class _StockListPageState extends State<StockListPage> {
                           DataColumn(label: Text('Qtd')),
                           DataColumn(label: Text('Ações')),
                         ],
-                        source: StockDataSource(filteredItems),
+                        source: StockDataSource(filteredItems, context),
                       ),
                     );
                   } else {
@@ -139,7 +140,9 @@ class _StockListPageState extends State<StockListPage> {
 // Fonte da tabela
 class StockDataSource extends DataTableSource {
   final List<StockItem> items;
-  StockDataSource(this.items);
+  final BuildContext context;
+
+  StockDataSource(this.items, this.context);
 
   @override
   DataRow getRow(int index) {
@@ -155,7 +158,10 @@ class StockDataSource extends DataTableSource {
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: () {
-              // ação de visualizar
+              showDialog(
+                context: context,
+                builder: (_) => ItemDetailsDialog(item: item),
+              );
             },
           ),
         ),
