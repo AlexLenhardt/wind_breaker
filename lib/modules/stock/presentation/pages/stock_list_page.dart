@@ -105,7 +105,6 @@ class _StockListPageState extends State<StockListPage> {
                       controller: ScrollController(keepScrollOffset: true),
                       child: PaginatedDataTable(
                         header: const Text('Itens em Estoque'),
-                        columnSpacing: 200,
                         rowsPerPage: 15,
                         columns: const [
                           DataColumn(label: Text('Código')),
@@ -149,18 +148,18 @@ class StockDataSource extends DataTableSource {
     final item = items[index];
     return DataRow(
       cells: [
-        DataCell(Text(item.code)),
-        DataCell(Text(item.name)),
-        DataCell(Text(item.description)),
-        DataCell(Text(item.timberCode)),
-        DataCell(Text(item.quantity.toString())),
+        DataCell(SizedBox(width: 50, child: Text(item.code))),
+        DataCell(SizedBox(width: 50, child: Text(item.name))),
+        DataCell(SizedBox(width: 150, child: Text(item.description))),
+        DataCell(SizedBox(width: 100, child: Text(item.timberCode))),
+        DataCell(SizedBox(width: 50, child: Text(item.quantity.toString()))),
         DataCell(
           IconButton(
             icon: const Icon(Icons.visibility),
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (_) => ItemDetailsDialog(item: item),
+                builder: (_) => StockItemModal(item: item),
               );
             },
           ),

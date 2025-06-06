@@ -1,28 +1,41 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wind_breaker/modules/stock/domain/entities/stock_item.dart';
-import 'stock_state.dart';
+import 'package:wind_breaker/modules/stock/presentation/cubit/stock_state.dart';
 
 class StockCubit extends Cubit<StockState> {
   StockCubit() : super(StockInitial());
 
+  List<StockItem> _items = [];
+
   void loadStock() {
     emit(StockLoading());
-    log("passou aqui");
-    Future.delayed(const Duration(seconds: 1), () {
-      final items = List.generate(50, (index) {
-        return StockItem(
-          id: (index + 1).toString().padLeft(3, '0'),
-          name: 'Item ${index + 1}',
-          code: 'Code ${index + 1}',
-          description: 'Descrição do item número ${index + 1}',
-          timberCode: 'TMB${(index + 1).toString().padLeft(3, '0')}',
-          quantity: (index + 1) * 3,
-        );
-      });
 
-      emit(StockLoaded(items));
-    });
+    // Simulando carregamento com 50 itens
+    _items = List.generate(
+      50,
+      (index) => StockItem(
+        code: 'code $index',
+        id: 'ID $index',
+        name: 'name $index',
+        description: 'Descrição do item $index',
+        timberCode: 'Timber $index',
+        quantity: index * 5,
+      ),
+    );
+
+    emit(StockLoaded(List.from(_items)));
+  }
+
+  void addItem(StockItem newItem) {
+    _items.add(newItem);
+    emit(StockLoaded(List.from(_items)));
+  }
+
+  void updateItem(StockItem updatedItem) {
+    final index = _items.indexWhere((i) => i.code == updatedItem.code);
+    if (index != -1) {
+      _items[index] = updatedItem;
+      emit(StockLoaded(List.from(_items)));
+    }
   }
 }
