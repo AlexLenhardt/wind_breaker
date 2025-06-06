@@ -15,7 +15,7 @@ class AppWidget extends StatelessWidget {
       title: 'Brava Tech',
       theme: ThemeData(primarySwatch: Colors.blue),
       routerConfig: Modular.routerConfig,
-    ); //added by extension
+    );
   }
 }
 

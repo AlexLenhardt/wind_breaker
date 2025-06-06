@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wind_breaker/modules/stock/domain/entities/stock_item.dart';
 import 'package:wind_breaker/modules/stock/presentation/cubit/stock_cubit.dart';
@@ -16,13 +17,11 @@ class StockItemModal extends StatefulWidget {
 class _StockItemModalState extends State<StockItemModal>
     with SingleTickerProviderStateMixin {
   late final TextEditingController codeController;
-  late final TextEditingController idController;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
   late final TextEditingController timberCodeController;
   late final TextEditingController quantityController;
 
-  bool isEditing = false;
   late final bool isNew;
   late final TabController _tabController;
   final _formKey = GlobalKey<FormState>();
@@ -32,11 +31,9 @@ class _StockItemModalState extends State<StockItemModal>
     super.initState();
 
     isNew = widget.item == null;
-    isEditing = isNew;
 
     final item = widget.item;
     codeController = TextEditingController(text: item?.code ?? '');
-    idController = TextEditingController(text: item?.id ?? '');
     nameController = TextEditingController(text: item?.name ?? '');
     descriptionController = TextEditingController(
       text: item?.description ?? '',
@@ -52,7 +49,6 @@ class _StockItemModalState extends State<StockItemModal>
   @override
   void dispose() {
     codeController.dispose();
-    idController.dispose();
     nameController.dispose();
     descriptionController.dispose();
     timberCodeController.dispose();
@@ -65,11 +61,10 @@ class _StockItemModalState extends State<StockItemModal>
     if (_formKey.currentState?.validate() ?? false) {
       final newItem = StockItem(
         code: codeController.text.trim(),
-        id: idController.text.trim(),
         name: nameController.text.trim(),
         description: descriptionController.text.trim(),
         timberCode: timberCodeController.text.trim(),
-        quantity: int.tryParse(quantityController.text.trim()) ?? 0,
+        quantity: int.tryParse(quantityController.text.trim()),
       );
 
       final cubit = Modular.get<StockCubit>();
@@ -102,7 +97,7 @@ class _StockItemModalState extends State<StockItemModal>
               ],
             ),
             Container(
-              height: 400,
+              height: 410,
               padding: const EdgeInsets.all(16),
               child: TabBarView(
                 controller: _tabController,
@@ -120,16 +115,10 @@ class _StockItemModalState extends State<StockItemModal>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (!isNew && !isEditing)
-                      TextButton(
-                        onPressed: () => setState(() => isEditing = true),
-                        child: const Text('Editar'),
-                      ),
-                    if (isEditing)
-                      ElevatedButton(
-                        onPressed: _submitForm,
-                        child: Text(isNew ? 'Cadastrar' : 'Salvar'),
-                      ),
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text(isNew ? 'Cadastrar' : 'Salvar'),
+                    ),
                   ],
                 ),
               ),
@@ -146,8 +135,8 @@ class _StockItemModalState extends State<StockItemModal>
         key: _formKey,
         child: Column(
           children: [
+            const SizedBox(height: 16),
             _formField('Código', codeController),
-            _formField('Id', idController),
             _formField('Nome', nameController),
             _formField('Descrição', descriptionController),
             _formField('Código Timber', timberCodeController),
@@ -155,6 +144,7 @@ class _StockItemModalState extends State<StockItemModal>
               'Quantidade em Estoque',
               quantityController,
               isNumeric: true,
+              isEditable: isNew ?? true,
             ),
           ],
         ),
@@ -166,20 +156,22 @@ class _StockItemModalState extends State<StockItemModal>
     String label,
     TextEditingController controller, {
     bool isNumeric = false,
+    bool isEditable = true,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
         controller: controller,
-        enabled: isEditing,
+        readOnly: !isEditable,
         keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
         ),
         validator: (value) {
-          if ((value?.trim().isEmpty ?? true))
+          if ((value?.trim().isEmpty ?? true)) {
             return 'Preencha o campo "$label"';
+          }
           return null;
         },
       ),

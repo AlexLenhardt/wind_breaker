@@ -93,45 +93,53 @@ class _StockListPageState extends State<StockListPage> {
             const SizedBox(height: 16),
             // Tabela
             Expanded(
-              child: BlocBuilder<StockCubit, StockState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  if (state is StockLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is StockLoaded) {
-                    final filteredItems = applyFilters(state.items);
+              child: Container(
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                child: BlocBuilder<StockCubit, StockState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    if (state is StockLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is StockLoaded) {
+                      final filteredItems = applyFilters(state.items);
 
-                    return SingleChildScrollView(
-                      controller: ScrollController(keepScrollOffset: true),
-                      child: PaginatedDataTable(
-                        header: const Text('Itens em Estoque'),
-                        rowsPerPage: 15,
-                        columns: const [
-                          DataColumn(label: Text('Código')),
-                          DataColumn(label: Text('Nome')),
-                          DataColumn(label: Text('Descrição')),
-                          DataColumn(label: Text('Timber')),
-                          DataColumn(label: Text('Qtd')),
-                          DataColumn(label: Text('Ações')),
-                        ],
-                        source: StockDataSource(filteredItems, context),
-                      ),
-                    );
-                  } else {
-                    return const Center(child: Text('Nenhum item carregado.'));
-                  }
-                },
+                      return SingleChildScrollView(
+                        controller: ScrollController(keepScrollOffset: true),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: PaginatedDataTable(
+                            header: const Text('Itens em Estoque'),
+                            rowsPerPage: 15,
+                            columns: const [
+                              DataColumn(label: Text('Código')),
+                              DataColumn(label: Text('Nome')),
+                              DataColumn(label: Text('Descrição')),
+                              DataColumn(label: Text('Timber')),
+                              DataColumn(label: Text('Qtd')),
+                              DataColumn(label: Text('Ações')),
+                            ],
+                            source: StockDataSource(filteredItems, context),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text('Nenhum item carregado.'),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // tela de cadastro
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(context: context, builder: (_) => StockItemModal());
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
@@ -148,11 +156,31 @@ class StockDataSource extends DataTableSource {
     final item = items[index];
     return DataRow(
       cells: [
-        DataCell(SizedBox(width: 50, child: Text(item.code))),
-        DataCell(SizedBox(width: 50, child: Text(item.name))),
-        DataCell(SizedBox(width: 150, child: Text(item.description))),
-        DataCell(SizedBox(width: 100, child: Text(item.timberCode))),
-        DataCell(SizedBox(width: 50, child: Text(item.quantity.toString()))),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Text(item.code, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Text(item.name, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Text(item.description, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: 100,
+            child: Text(item.timberCode, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+        DataCell(SizedBox(width: 100, child: Text(item.quantity.toString()))),
         DataCell(
           IconButton(
             icon: const Icon(Icons.visibility),

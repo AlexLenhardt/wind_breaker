@@ -14,11 +14,13 @@ class StockCubit extends Cubit<StockState> {
     _items = List.generate(
       50,
       (index) => StockItem(
-        code: 'code $index',
-        id: 'ID $index',
-        name: 'name $index',
-        description: 'Descrição do item $index',
-        timberCode: 'Timber $index',
+        code: 'JQBDJKQWNDKJQWNDKQJWN QW JBDJQWH BDJQWHB DHJWQ D $index',
+        id: 'QKWJNDQWJKDN KQWJND KJQWND KJQWNJDK QNWJKD QW $index',
+        name: 'QKDQWNKJ DNQWJKDN QWJKND KQWJNDQWJN QW $index',
+        description:
+            'QDMKN QWJDN QWJKDN QWJKND KJQWND JQWND JQNWK DNQWJKN DQWJKND JKQWN JKDNQWJ DNQWKDN KJQWN  $index',
+        timberCode:
+            'D QWJBJK QWNDJK QWNDJK QWNJKD NQWJKDN QWKJDN QWJKN DKQWND KJQWN $index',
         quantity: index * 5,
       ),
     );
