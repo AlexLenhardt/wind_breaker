@@ -35,14 +35,14 @@ Drawer DrawerDefault() {
           leading: const Icon(Icons.warehouse),
           title: const Text('Estoque'),
           onTap: () {
-            Modular.to.navigate('/stock/');
+            Modular.to.navigate('/estoque/');
           },
         ),
         ListTile(
-          leading: const Icon(Icons.people),
-          title: const Text('Recursos Humanos'),
+          leading: const Icon(Icons.article),
+          title: const Text('Ordem de Serviço'),
           onTap: () {
-            Modular.to.navigate('/rh/');
+            Modular.to.navigate('/os/');
           },
         ),
         ListTile(
