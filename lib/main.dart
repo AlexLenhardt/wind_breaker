@@ -46,6 +46,13 @@ Drawer DrawerDefault() {
           },
         ),
         ListTile(
+          leading: const Icon(Icons.people),
+          title: const Text('Cliente'),
+          onTap: () {
+            Modular.to.navigate('/cliente/');
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.settings),
           title: const Text('Configurações'),
           onTap: () {
