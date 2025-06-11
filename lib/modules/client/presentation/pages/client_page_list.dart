@@ -5,6 +5,7 @@ import 'package:wind_breaker/main.dart';
 import 'package:wind_breaker/modules/client/domain/entities/client.dart';
 import 'package:wind_breaker/modules/client/presentation/cubit/client_cubit.dart';
 import 'package:wind_breaker/modules/client/presentation/cubit/client_state.dart';
+import 'package:wind_breaker/modules/client/presentation/widget/client_widget.dart';
 
 class ClientPageList extends StatefulWidget {
   const ClientPageList({super.key});
@@ -91,7 +92,7 @@ class _ClientPageListListPageState extends State<ClientPageList> {
                             rowsPerPage: 15,
                             columns: const [
                               DataColumn(label: Text('Nome')),
-                              DataColumn(label: Text('Documento')),
+                              DataColumn(label: Text('CPF')),
                               DataColumn(label: Text('Status')),
                             ],
                             source: ClientPageListDataSource(
@@ -115,7 +116,7 @@ class _ClientPageListListPageState extends State<ClientPageList> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // showDialog(context: context, builder: (_) => StockItemModal());
+          showDialog(context: context, builder: (_) => ClientModal());
         },
         child: const Icon(Icons.add),
       ),
@@ -129,10 +130,6 @@ class ClientPageListDataSource extends DataTableSource {
   final BuildContext context;
 
   ClientPageListDataSource(this.items, this.context);
-  // DataColumn(label: Text('Cliente')),
-  // DataColumn(label: Text('Título')),
-  // DataColumn(label: Text('Equipamento')),
-  // DataColumn(label: Text('Status')),
   @override
   DataRow getRow(int index) {
     final item = items[index];
@@ -140,13 +137,13 @@ class ClientPageListDataSource extends DataTableSource {
       cells: [
         DataCell(
           SizedBox(
-            width: 100,
+            width: 150,
             child: Text(item.name, overflow: TextOverflow.ellipsis),
           ),
         ),
         DataCell(
           SizedBox(
-            width: 100,
+            width: 150,
             child: Text(item.document, overflow: TextOverflow.ellipsis),
           ),
         ),

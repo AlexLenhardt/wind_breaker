@@ -1,26 +1,24 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:wind_breaker/modules/stock/domain/entities/stock_item.dart';
-import 'package:wind_breaker/modules/stock/presentation/cubit/stock_cubit.dart';
+import 'package:wind_breaker/modules/client/domain/entities/client.dart';
+import 'package:wind_breaker/modules/client/presentation/cubit/client_cubit.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 
-class StockItemModal extends StatefulWidget {
-  final StockItem? item;
+class ClientModal extends StatefulWidget {
+  final Client? item;
 
-  const StockItemModal({super.key, this.item});
+  const ClientModal({super.key, this.item});
 
   @override
-  State<StockItemModal> createState() => _StockItemModalState();
+  State<ClientModal> createState() => _ClientModalState();
 }
 
-class _StockItemModalState extends State<StockItemModal>
+class _ClientModalState extends State<ClientModal>
     with SingleTickerProviderStateMixin {
-  late final TextEditingController codeController;
   late final TextEditingController nameController;
-  late final TextEditingController descriptionController;
-  late final TextEditingController timberCodeController;
-  late final TextEditingController quantityController;
+  late final TextEditingController documentController;
+  late final TextEditingController statusController;
 
   late final bool isNew;
   late final TabController _tabController;
@@ -33,14 +31,10 @@ class _StockItemModalState extends State<StockItemModal>
     isNew = widget.item == null;
 
     final item = widget.item;
-    codeController = TextEditingController(text: item?.code ?? '');
     nameController = TextEditingController(text: item?.name ?? '');
-    descriptionController = TextEditingController(
-      text: item?.description ?? '',
-    );
-    timberCodeController = TextEditingController(text: item?.timberCode ?? '');
-    quantityController = TextEditingController(
-      text: item?.quantity.toString() ?? '',
+    documentController = TextEditingController(text: item?.document ?? '');
+    statusController = TextEditingController(
+      text: item?.statusCode.toString().trim() ?? '0',
     );
 
     _tabController = TabController(length: 2, vsync: this);
@@ -48,26 +42,22 @@ class _StockItemModalState extends State<StockItemModal>
 
   @override
   void dispose() {
-    codeController.dispose();
     nameController.dispose();
-    descriptionController.dispose();
-    timberCodeController.dispose();
-    quantityController.dispose();
+    documentController.dispose();
+    statusController.dispose();
     _tabController.dispose();
     super.dispose();
   }
 
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
-      final newItem = StockItem(
-        code: codeController.text.trim(),
+      final newItem = Client(
         name: nameController.text.trim(),
-        description: descriptionController.text.trim(),
-        timberCode: timberCodeController.text.trim(),
-        quantity: int.tryParse(quantityController.text.trim()),
+        document: documentController.text.trim(),
+        statusCode: int.tryParse(statusController.text.trim()),
       );
 
-      final cubit = Modular.get<StockCubit>();
+      final cubit = Modular.get<ClientCubit>();
 
       if (isNew) {
         cubit.addItem(newItem);
@@ -136,15 +126,15 @@ class _StockItemModalState extends State<StockItemModal>
         child: Column(
           children: [
             const SizedBox(height: 16),
-            _formField('Código', codeController),
             _formField('Nome', nameController),
-            _formField('Descrição', descriptionController),
-            _formField('Código Timber', timberCodeController),
-            _formField(
-              'Quantidade em Estoque',
-              quantityController,
-              isNumeric: true,
-              isEditable: isNew,
+            _formField('CPF', documentController, isDocument: true),
+            _formFieldSelectorStatus(
+              currentValue: int.tryParse(statusController.text) ?? 0,
+              onChanged: (newValue) {
+                setState(() {
+                  statusController.text = newValue.toString();
+                });
+              },
             ),
           ],
         ),
@@ -157,6 +147,7 @@ class _StockItemModalState extends State<StockItemModal>
     TextEditingController controller, {
     bool isNumeric = false,
     bool isEditable = true,
+    bool isDocument = false,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -164,6 +155,9 @@ class _StockItemModalState extends State<StockItemModal>
         controller: controller,
         readOnly: !isEditable,
         keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+        inputFormatters: isDocument
+            ? [FilteringTextInputFormatter.digitsOnly, CpfInputFormatter()]
+            : null,
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
@@ -172,8 +166,37 @@ class _StockItemModalState extends State<StockItemModal>
           if ((value?.trim().isEmpty ?? true)) {
             return 'Preencha o campo "$label"';
           }
+          if (isDocument &&
+              !UtilBrasilFields.isCPFValido(value?.trim() ?? '')) {
+            return 'Insira um CPF válido.';
+          }
           return null;
         },
+      ),
+    );
+  }
+
+  Widget _formFieldSelectorStatus({
+    required int currentValue,
+    required void Function(int?) onChanged,
+  }) {
+    final Map<String, int> statusMap = {'Ativo': 0, 'Inativo': 1};
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: DropdownButtonFormField<int>(
+        value: currentValue,
+        decoration: const InputDecoration(
+          labelText: 'Status',
+          border: OutlineInputBorder(),
+        ),
+        onChanged: onChanged,
+        items: statusMap.entries.map((entry) {
+          return DropdownMenuItem<int>(
+            value: entry.value,
+            child: Text(entry.key),
+          );
+        }).toList(),
       ),
     );
   }

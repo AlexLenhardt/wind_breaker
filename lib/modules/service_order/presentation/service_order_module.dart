@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wind_breaker/modules/service_order/presentation/cubit/service_order_cubit.dart';
-import 'package:wind_breaker/modules/service_order/presentation/pages/service_order_page.dart';
+import 'package:wind_breaker/modules/service_order/presentation/pages/service_order_list.dart';
 
 class ServiceOrderModule extends Module {
   @override
