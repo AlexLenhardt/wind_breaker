@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:wind_breaker/core/widget/form_fields.dart';
 import 'package:wind_breaker/modules/stock/domain/entities/stock_item.dart';
 import 'package:wind_breaker/modules/stock/presentation/cubit/stock_cubit.dart';
 
@@ -136,11 +137,11 @@ class _StockItemModalState extends State<StockItemModal>
         child: Column(
           children: [
             const SizedBox(height: 16),
-            _formField('Código', codeController),
-            _formField('Nome', nameController),
-            _formField('Descrição', descriptionController),
-            _formField('Código Timber', timberCodeController),
-            _formField(
+            formField('Código', codeController),
+            formField('Nome', nameController),
+            formField('Descrição', descriptionController),
+            formField('Código Timber', timberCodeController),
+            formField(
               'Quantidade em Estoque',
               quantityController,
               isNumeric: true,
@@ -148,32 +149,6 @@ class _StockItemModalState extends State<StockItemModal>
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _formField(
-    String label,
-    TextEditingController controller, {
-    bool isNumeric = false,
-    bool isEditable = true,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextFormField(
-        controller: controller,
-        readOnly: !isEditable,
-        keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if ((value?.trim().isEmpty ?? true)) {
-            return 'Preencha o campo "$label"';
-          }
-          return null;
-        },
       ),
     );
   }

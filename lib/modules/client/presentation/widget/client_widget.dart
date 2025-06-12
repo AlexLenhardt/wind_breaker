@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:wind_breaker/core/widget/form_fields.dart';
 import 'package:wind_breaker/modules/client/domain/entities/client.dart';
 import 'package:wind_breaker/modules/client/presentation/cubit/client_cubit.dart';
-import 'package:brasil_fields/brasil_fields.dart';
 
 class ClientModal extends StatefulWidget {
   final Client? item;
@@ -126,9 +125,9 @@ class _ClientModalState extends State<ClientModal>
         child: Column(
           children: [
             const SizedBox(height: 16),
-            _formField('Nome', nameController),
-            _formField('CPF', documentController, isDocument: true),
-            _formFieldSelectorStatus(
+            formField('Nome', nameController),
+            formField('CPF', documentController, isDocument: true),
+            formFieldSelectorStatus(
               currentValue: int.tryParse(statusController.text) ?? 0,
               onChanged: (newValue) {
                 setState(() {
@@ -138,65 +137,6 @@ class _ClientModalState extends State<ClientModal>
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _formField(
-    String label,
-    TextEditingController controller, {
-    bool isNumeric = false,
-    bool isEditable = true,
-    bool isDocument = false,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextFormField(
-        controller: controller,
-        readOnly: !isEditable,
-        keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-        inputFormatters: isDocument
-            ? [FilteringTextInputFormatter.digitsOnly, CpfInputFormatter()]
-            : null,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if ((value?.trim().isEmpty ?? true)) {
-            return 'Preencha o campo "$label"';
-          }
-          if (isDocument &&
-              !UtilBrasilFields.isCPFValido(value?.trim() ?? '')) {
-            return 'Insira um CPF válido.';
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Widget _formFieldSelectorStatus({
-    required int currentValue,
-    required void Function(int?) onChanged,
-  }) {
-    final Map<String, int> statusMap = {'Ativo': 0, 'Inativo': 1};
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: DropdownButtonFormField<int>(
-        value: currentValue,
-        decoration: const InputDecoration(
-          labelText: 'Status',
-          border: OutlineInputBorder(),
-        ),
-        onChanged: onChanged,
-        items: statusMap.entries.map((entry) {
-          return DropdownMenuItem<int>(
-            value: entry.value,
-            child: Text(entry.key),
-          );
-        }).toList(),
       ),
     );
   }

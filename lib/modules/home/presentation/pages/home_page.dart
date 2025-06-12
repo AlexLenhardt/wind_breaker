@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard')),
-      drawer: DrawerDefault(),
+      drawer: drawerDefault(),
       body:
           const RouterOutlet(), // Aqui será carregado o conteúdo do módulo selecionado
     );

@@ -5,6 +5,7 @@ import 'package:wind_breaker/main.dart';
 import 'package:wind_breaker/modules/service_order/domain/entities/service_order_entities.dart';
 import 'package:wind_breaker/modules/service_order/presentation/cubit/service_order_cubit.dart';
 import 'package:wind_breaker/modules/service_order/presentation/cubit/service_order_state.dart';
+import 'package:wind_breaker/modules/service_order/presentation/pages/service_order_register.dart';
 
 class ServiceOrderPage extends StatefulWidget {
   const ServiceOrderPage({super.key});
@@ -47,7 +48,7 @@ class _ServiceOrderListPageState extends State<ServiceOrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ordens de Serviço')),
-      drawer: DrawerDefault(),
+      drawer: drawerDefault(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -116,7 +117,7 @@ class _ServiceOrderListPageState extends State<ServiceOrderPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // showDialog(context: context, builder: (_) => StockItemModal());
+          showDialog(context: context, builder: (_) => ServiceOrderRegister());
         },
         child: const Icon(Icons.add),
       ),
@@ -130,10 +131,7 @@ class ServiceOrderDataSource extends DataTableSource {
   final BuildContext context;
 
   ServiceOrderDataSource(this.items, this.context);
-  // DataColumn(label: Text('Cliente')),
-  // DataColumn(label: Text('Título')),
-  // DataColumn(label: Text('Equipamento')),
-  // DataColumn(label: Text('Status')),
+
   @override
   DataRow getRow(int index) {
     final item = items[index];

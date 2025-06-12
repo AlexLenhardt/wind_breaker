@@ -48,7 +48,7 @@ class _ClientPageListListPageState extends State<ClientPageList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Cliente')),
-      drawer: DrawerDefault(),
+      drawer: drawerDefault(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

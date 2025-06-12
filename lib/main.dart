@@ -13,13 +13,13 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Brava Tech',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(primarySwatch: Colors.green),
       routerConfig: Modular.routerConfig,
     );
   }
 }
 
-Drawer DrawerDefault() {
+Drawer drawerDefault() {
   return Drawer(
     child: ListView(
       children: [

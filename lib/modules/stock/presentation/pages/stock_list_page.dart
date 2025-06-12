@@ -48,7 +48,7 @@ class _StockListPageState extends State<StockListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Estoque')),
-      drawer: DrawerDefault(),
+      drawer: drawerDefault(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
