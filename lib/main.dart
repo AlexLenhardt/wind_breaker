@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import './modules/app_module.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('pt_BR', null);
   return runApp(ModularApp(module: AppModule(), child: AppWidget()));
 }
 
@@ -15,6 +19,12 @@ class AppWidget extends StatelessWidget {
       title: 'Brava Tech',
       theme: ThemeData(primarySwatch: Colors.green),
       routerConfig: Modular.routerConfig,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [Locale('pt', 'BR')],
     );
   }
 }

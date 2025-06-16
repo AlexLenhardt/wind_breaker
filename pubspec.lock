@@ -81,6 +81,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  date_field:
+    dependency: "direct main"
+    description:
+      name: date_field
+      sha256: "5714b1ac0ba1c860877b3040601a6fd20cb846042c9ae6d8216ffede422d43d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.3+1"
+  date_picker_plus:
+    dependency: "direct main"
+    description:
+      name: date_picker_plus
+      sha256: e2693c3514430cdc874d071dcb80a717385cb94206e8e458137c993b5c69d9a7
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
+  date_time:
+    dependency: "direct main"
+    description:
+      name: date_time
+      sha256: "484993384cc0f1270729eadb3f68a15dd7c68fd7115ce360aba89f402dbd9813"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.12.0"
+  datetime_picker_formfield_new:
+    dependency: "direct main"
+    description:
+      name: datetime_picker_formfield_new
+      sha256: "04e353b959fa9f2654bb41ec016100152bdcd0afdef7b7b74a83d7d97bdba0a3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -118,6 +150,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_modular:
     dependency: "direct main"
     description:
@@ -137,13 +174,21 @@ packages:
     source: sdk
     version: "0.0.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
     version: "0.20.2"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -232,6 +277,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.5"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: ea0b925899e64ecdfbf9c7becb60d5b50e706ade44a85b2363be2a22d88117d2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
   result_dart:
     dependency: transitive
     description:
@@ -285,6 +338,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "0e1e1f50edca35bf1a36c75ebd9c4bef722d3ff9998dac9cee3bf11745639d6a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "29.2.10"
+  syncfusion_flutter_datepicker:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datepicker
+      sha256: f8957f19fcf2a6ab49a8795fc86c4acb8abe2c779a79f858eb2b3f8dc133d42c
+      url: "https://pub.dev"
+    source: hosted
+    version: "29.2.10"
   term_glyph:
     dependency: transitive
     description:

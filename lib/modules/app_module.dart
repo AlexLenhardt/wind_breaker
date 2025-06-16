@@ -8,7 +8,7 @@ import 'service_order/presentation/service_order_module.dart';
 class AppModule extends Module {
   @override
   void routes(r) {
-    r.module('/', module: AuthModule());
+    r.module('/', module: ServiceOrderModule());
     r.module('/home/', module: HomeModule());
     r.module('/estoque/', module: StockModule());
     r.module('/os/', module: ServiceOrderModule());
